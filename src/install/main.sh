@@ -97,14 +97,12 @@ declare -a FONT_FAMILIES=(
     "UbuntuMono"
 )
 for fontfamily in "${FONT_FAMILIES[@]}"; do
-    execute "wget -q \"https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/${fontfamily}.zip\" -O \"${fontfamily}.zip\"" \
-        "Font ${fontfamily} (Download)"
-    execute "sudo unzip -qq \"${fontfamily}.zip\" -d /usr/share/fonts/" \
-        "Font ${fontfamily} (Install)"
-    rm "${fontfamily}.zip" \
-        || print_error "Font ${fontfamily} (Cleanup)"
+    execute "wget -q \"https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/${fontfamily}.zip\" -O \"${fontfamily}.zip\" &&
+             sudo unzip -qq \"${fontfamily}.zip\" -d /usr/share/fonts/;
+             ${fontfamily}.zip"  \
+        "${fontfamily}"
 done
-execute 'cd /usr/share/fonts/ && sudo rm *Nerd*Windows\ Compatible* Fura*Nerd*.otf' \
+execute 'cd /usr/share/fonts/ && sudo rm *Nerd*Windows\ Compatible*' \
     "Clean duplicate fonts"
 execute "fc-cache -f -v" \
      "Font cache rebuild"
