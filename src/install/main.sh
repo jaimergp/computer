@@ -105,14 +105,14 @@ done
 execute 'cd /usr/share/fonts/ && sudo rm *Nerd*Windows\ Compatible*' \
     "Clean duplicate fonts"
 execute "fc-cache -f -v" \
-     "Font cache rebuild"
+    "Font cache rebuild"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 print_in_purple "\n   Optional packages\n\n"
 
 for installer in _*.sh; do
-    title=${installer:1:-3^}
+    title=${installer:1:-3}
     ask_for_confirmation "Do you want to install ${title^}?"
         if answer_is_yes; then
             chmod +x "${installer}"
