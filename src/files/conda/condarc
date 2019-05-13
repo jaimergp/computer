@@ -1,0 +1,11 @@
+channels:
+  - conda-forge
+  - defaults
+  - rdkit
+create_default_packages:
+  - pip
+  - pylint
+  - black
+  - pytest
+
+# channel_priority: strict

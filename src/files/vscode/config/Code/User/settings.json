@@ -1,0 +1,16 @@
+{
+    "workbench.colorTheme": "Flatland Monokai Improved - No Cursor Highlight",
+    "window.zoomLevel": 0,
+    "files.trimTrailingWhitespace": true,
+    "python.dataScience.sendSelectionToInteractiveWindow": true,
+    "editor.fontFamily": "'Fira Code'",
+    "terminal.integrated.fontFamily": "'RobotoMono Nerd Font Mono'",
+    "editor.fontLigatures": true,
+    "window.titleBarStyle": "custom",
+    "editor.fontSize": 16,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "python.jediEnabled": false,
+    "python.diagnostics.sourceMapsEnabled": false,
+    "python.condaPath": "/home/${env:USERNAME}/.local/anaconda/condabin/conda"
+}
