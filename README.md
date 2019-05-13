@@ -11,7 +11,7 @@ terminal:
 understand [what it does][setup]. Seriously, **DON'T**!)
 
 ```bash
-bash -c "$(wget -qO - https://raw.github.com/jaimergp/computer/master/src/setup.sh)"`
+bash -c "$(wget -qO - https://raw.github.com/jaimergp/computer/master/src/setup.sh)"
 ```
 
 ## License
