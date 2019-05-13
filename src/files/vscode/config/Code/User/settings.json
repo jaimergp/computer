@@ -3,7 +3,7 @@
     "window.zoomLevel": 0,
     "files.trimTrailingWhitespace": true,
     "python.dataScience.sendSelectionToInteractiveWindow": true,
-    "editor.fontFamily": "'Fira Code'",
+    "editor.fontFamily": "'FuraCode Nerd Font Mono'",
     "terminal.integrated.fontFamily": "'RobotoMono Nerd Font Mono'",
     "editor.fontLigatures": true,
     "window.titleBarStyle": "custom",
@@ -12,5 +12,5 @@
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "python.jediEnabled": false,
     "python.diagnostics.sourceMapsEnabled": false,
-    "python.condaPath": "/home/${env:USERNAME}/.local/anaconda/condabin/conda"
+    "python.condaPath": "/opt/miniconda/condabin/conda"
 }
