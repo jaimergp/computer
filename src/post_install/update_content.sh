@@ -18,7 +18,7 @@ main() {
 
     print_in_purple "\n • Update content\n\n"
 
-    ask_for_confirmation "Do you want to update the content from the 'dotfiles' directory?"
+    ask_for_confirmation "Do you want to update the content from the 'computer' directory?"
 
     if answer_is_yes; then
 

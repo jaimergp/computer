@@ -202,6 +202,15 @@ mkd() {
     fi
 }
 
+on_wsl(){
+    # Detect whether we are running Ubuntu on WSL or native Ubuntu
+    if grep -q Microsoft /proc/version; then
+        return 1
+    else
+        return 0
+    fi
+}
+
 print_error() {
     print_in_red "   [✖] $1 $2\n"
 }

@@ -101,7 +101,7 @@ create_subdirectory_symlinks() {
     for i in "${FILES_TO_SYMLINK[@]}"; do
 
         sourceFile="$(cd .. && pwd)/$i"
-        targetFile="$HOME/.$(printf "%s" "$i" | cut -d/ -f2-")"
+        targetFile="$HOME/.$(printf "%s" "$i" | cut -d/ -f2-)"
 
         if [ ! -e "$targetFile" ] || $skipQuestions; then
 

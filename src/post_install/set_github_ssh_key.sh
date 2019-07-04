@@ -78,10 +78,16 @@ set_github_ssh_key() {
 
     generate_ssh_keys "$sshKeyFileName"
     add_ssh_configs "$sshKeyFileName"
-    copy_public_ssh_key_to_clipboard "${sshKeyFileName}.pub"
-    open_github_ssh_page
-    test_ssh_connection \
+    if ! on_wsl; then
+        copy_public_ssh_key_to_clipboard "${sshKeyFileName}.pub"
+        open_github_ssh_page
+        test_ssh_connection \
         && rm "${sshKeyFileName}.pub"
+    else
+        echo "\n   Copy the contents of ${sshKeyFileName}.pub into your GitHub SSH settings:"
+        echo "\n   >  https://github.com/settings/ssh"
+    fi
+
 
 }
 

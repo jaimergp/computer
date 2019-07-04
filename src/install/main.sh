@@ -18,6 +18,7 @@ install_package "Build Essential" "build-essential"
 # GnuPG archive keys of the Debian archive.
 install_package "GnuPG archive keys" "debian-archive-keyring"
 install_package "Curl" "curl"
+install_package "Unzip" "unzip"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -34,15 +35,17 @@ if ! cmd_exists "conda" || [ ! -e "/opt/miniconda" ]; then
         || print_error "Miniconda (cleanup)"
 fi
 
-if ! package_is_installed "code"; then
-    add_key "https://packages.microsoft.com/keys/microsoft.asc" \
-        || print_error "VSCode (add key)"
-    add_to_source_list "[arch=amd64] https://packages.microsoft.com/repos/vscode stable main" "code.list" \
-        || print_error "VSCode (add to package resource list)"
-    update &> /dev/null \
-        || print_error "VSCode (resync package index files)"
+if ! on_wsl; then
+    if ! package_is_installed "code"; then
+        add_key "https://packages.microsoft.com/keys/microsoft.asc" \
+            || print_error "VSCode (add key)"
+        add_to_source_list "[arch=amd64] https://packages.microsoft.com/repos/vscode stable main" "code.list" \
+            || print_error "VSCode (add to package resource list)"
+        update &> /dev/null \
+            || print_error "VSCode (resync package index files)"
+    fi
+    install_package "VSCode" "code"
 fi
-install_package "VSCode" "code"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -57,70 +60,79 @@ install_package "SSH server" "openssh-server"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+if ! on_wsl; then
 print_in_purple "\n   Browsers\n\n"
-if ! package_is_installed "google-chrome-stable"; then
-    add_key "https://dl-ssl.google.com/linux/linux_signing_key.pub" \
-        || print_error "Chrome (add key)"
-    add_to_source_list "[arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" "google-chrome.list" \
-        || print_error "Chrome (add to package resource list)"
-    update &> /dev/null \
-        || print_error "Chrome (resync package index files)"
+    if ! package_is_installed "google-chrome-stable"; then
+        add_key "https://dl-ssl.google.com/linux/linux_signing_key.pub" \
+            || print_error "Chrome (add key)"
+        add_to_source_list "[arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" "google-chrome.list" \
+            || print_error "Chrome (add to package resource list)"
+        update &> /dev/null \
+            || print_error "Chrome (resync package index files)"
+    fi
+    install_package "Chrome" "google-chrome-stable"
 fi
-install_package "Chrome" "google-chrome-stable"
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Image Tools\n\n"
-install_package "GIMP" "gimp"
-install_package "InkScape" "inkscape"
-
+if ! on_wsl; then
+    print_in_purple "\n   Image Tools\n\n"
+    install_package "GIMP" "gimp"
+    install_package "InkScape" "inkscape"
+    fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 print_in_purple "\n   Miscellaneous Tools\n\n"
 install_package "cURL" "curl"
 install_package "ShellCheck" "shellcheck"
-install_package "xclip" "xclip"
 install_package "Screen" "screen"
 install_package "htop" "htop"
-install_package "Gnome Tweaks" "gnome-tweak-tool"
-
+if ! on_wsl; then
+    install_package "xclip" "xclip"
+    install_package "Gnome Tweaks" "gnome-tweak-tool"
+fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Fonts\n\n"
-declare -a FONT_FAMILIES=(
-    "DroidSansMono"
-    "FiraCode"
-    "FiraMono"
-    "RobotoMono"
-    "SourceCodePro"
-    "UbuntuMono"
-)
-for fontfamily in "${FONT_FAMILIES[@]}"; do
-    execute "wget -q \"https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/${fontfamily}.zip\" -O \"${fontfamily}.zip\" &&
-             sudo unzip -qq \"${fontfamily}.zip\" -d /usr/share/fonts/;
-             ${fontfamily}.zip"  \
-        "${fontfamily}"
-done
-execute 'cd /usr/share/fonts/ && sudo rm *Nerd*Windows\ Compatible*' \
-    "Clean duplicate fonts"
-execute "fc-cache -f -v" \
-    "Font cache rebuild"
-
+if ! on_wsl; then
+    print_in_purple "\n   Fonts\n\n"
+    declare -a FONT_FAMILIES=(
+        "DroidSansMono"
+        "FiraCode"
+        "FiraMono"
+        "RobotoMono"
+        "SourceCodePro"
+        "UbuntuMono"
+    )
+    for fontfamily in "${FONT_FAMILIES[@]}"; do
+        execute "wget -q \"https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/${fontfamily}.zip\" -O \"${fontfamily}.zip\" &&
+                sudo unzip -qq \"${fontfamily}.zip\" -d /usr/share/fonts/;
+                ${fontfamily}.zip"  \
+            "${fontfamily}"
+    done
+    execute 'cd /usr/share/fonts/ && sudo rm *Nerd*Windows\ Compatible*' \
+        "Clean duplicate fonts"
+    execute "fc-cache -f -v" \
+        "Font cache rebuild"
+else
+    print_in_purple "\n   Remember to install Fonts in Windows: https://github.com/ryanoasis/nerd-fonts/releases\n\n"
+fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-print_in_purple "\n   Optional packages\n\n"
+if ! on_wsl; then
 
-for installer in _*.sh; do
-    title=${installer:1:-3}
-    ask_for_confirmation "Do you want to install ${title^}?"
-        if answer_is_yes; then
-            chmod +x "${installer}"
-            execute "./${installer}" \
-                "${title^}"
-        fi
-done
+    print_in_purple "\n   Optional packages\n\n"
 
+    for installer in _*.sh; do
+        title=${installer:1:-3}
+        ask_for_confirmation "Do you want to install ${title^}?"
+            if answer_is_yes; then
+                chmod +x "${installer}"
+                execute "./${installer}" \
+                    "${title^}"
+            fi
+    done
+
+fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 print_in_purple "\n   Cleanup\n\n"

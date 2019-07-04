@@ -12,6 +12,7 @@ create_directories() {
         "$HOME/devel/go"
         "$HOME/devel/js"
         "$HOME/devel/py"
+        "$HOME/devel/sh"
         "$HOME/outreach"
         "$HOME/mnt"
         "$HOME/prj"

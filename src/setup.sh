@@ -8,8 +8,10 @@ declare -r DOTFILES_UTILS_URL="https://raw.githubusercontent.com/$GITHUB_REPOSIT
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-declare dotfilesDirectory="$HOME/.local/dotfiles"
+declare dotfilesDirectory="$HOME/.local/computer"
 declare skipQuestions=false
+
+source utils.sh
 
 # ----------------------------------------------------------------------
 # | Helper Functions                                                   |
@@ -253,7 +255,9 @@ main() {
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    ./post_install/vscode.sh
+    if ! on_wsl; then
+        ./post_install/vscode.sh
+    fi
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
